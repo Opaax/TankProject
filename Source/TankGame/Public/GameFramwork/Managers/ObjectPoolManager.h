@@ -80,16 +80,27 @@ public:
 	FORCEINLINE typename TEnableIf<TIsDerivedFrom<T, AActor>::IsDerived, T*>::Type
 		GetPoolObject()
 	{
-		if (TArray<AActor*>* lPoolList = m_poolContainer->Find(T::StaticClass()))
+		if (m_poolContainer->Num() > 0)
 		{
-			if (lPoolList->IsEmpty())
+			//lPool should be TMap<TSubclassOf<AActor>, TArray<AActor*>>*
+			for (auto& lPool : *m_poolContainer)
 			{
-				SpawnRange(T::StaticClass(), 10);
+				if (lPool.Key.GetDefaultObject()->IsA(T::StaticClass()))
+				{
+					if (lPool.Value.IsEmpty())
+					{
+						SpawnRange(lPool.Key.Get(), 10);
+					}
+
+					T* lReturnableOBJ = (T*)lPool.Value.Pop();
+					return lReturnableOBJ;
+				}
 			}
 
-			T* lReturnableOBJ = (T*)lPoolList->Pop();
-			return lReturnableOBJ;
+			return nullptr;
 		}
+
+		UE_LOG(LogTemp, Error, TEXT("Pool not found"));
 
 		return nullptr;
 	}

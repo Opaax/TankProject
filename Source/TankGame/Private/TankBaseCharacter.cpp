@@ -243,9 +243,9 @@ void ATankBaseCharacter::PrimaryShoot()
 		return;
 	}
 
-	FTransform ltrans = m_tankCanon->GetActorTransform();
+	FTransform lTrans = m_tankCanon->GetShootTransform();
 
-	lActor->SetActorTransform(ltrans);
+	lActor->SetActorTransform(lTrans);
 }
 
 void ATankBaseCharacter::InitTank()
