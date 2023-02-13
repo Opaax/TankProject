@@ -9,6 +9,7 @@
 //UE
 class UDataTable;
 class AActor;
+class UPoolableInterface;
 
 /**
  * 
@@ -75,6 +76,9 @@ public:
 	/// </summary>
 	/// <returns>the actor that own this manager</returns>
 	AActor* GetOwner() const;
+
+	UFUNCTION(BlueprintCallable)
+	bool BackToPool(TSubclassOf<AActor> KeyClass, AActor* Poolable);
 
 	template<class T>
 	FORCEINLINE typename TEnableIf<TIsDerivedFrom<T, AActor>::IsDerived, T*>::Type

@@ -10,6 +10,7 @@
 
 //Tank
 #include "TankGame/Public/Data/Tables/PoolStructTable.h"
+#include "TankGame/Public/FrameworkUtils/Interfaces/PoolableInterface.h"
 
 UObjectPoolManager::UObjectPoolManager()
 {
@@ -104,4 +105,15 @@ AActor* UObjectPoolManager::GetOwner() const
 	}
 
 	return m_owner;
+}
+
+bool UObjectPoolManager::BackToPool(TSubclassOf<AActor> KeyClass, AActor* Poolable)
+{
+	if (Poolable->GetClass()->ImplementsInterface(UPoolableInterface::StaticClass()))
+	{
+		AddOnPool(KeyClass, Poolable);
+
+		return true;
+	}
+	return false;
 }

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "TankGame/Public/FrameworkUtils/Interfaces/PoolableInterface.h"
 #include "TankBulletBase.generated.h"
 
 //UE
@@ -11,8 +12,11 @@ class UStaticMeshComponent;
 class USceneComponent;
 class UProjectileMovementComponent;
 
+//Tank
+class UTimerComponent;
+
 UCLASS()
-class TANKGAME_API ATankBulletBase : public AActor
+class TANKGAME_API ATankBulletBase : public AActor, public IPoolableInterface
 {
 	GENERATED_BODY()
 
@@ -26,6 +30,14 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = "Movement")
 	UProjectileMovementComponent* m_projectileComp = nullptr;
+
+	UPROPERTY(EditAnywhere, category = "Timer")
+	UTimerComponent* m_lifeTimer = nullptr;
+
+	UFUNCTION()
+	void LifeTimer_OnTimerOver();
+	UFUNCTION()
+	void RemoveTimerBindFunction();
 	
 public:	
 	// Sets default values for this actor's properties
@@ -39,4 +51,8 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	virtual void ActivateBullet();
+
+	//IPoolable
+	virtual void ReturnToPool() override;
 };
