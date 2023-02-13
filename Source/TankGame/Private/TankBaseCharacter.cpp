@@ -235,9 +235,9 @@ void ATankBaseCharacter::PrimaryShoot()
 		return;
 	}
 	
-	ATankBulletBase* lActor = lPoolManager->GetPoolObject<ATankBulletBase>();
+	ATankBulletBase* lBullet = lPoolManager->GetPoolObject<ATankBulletBase>();
 
-	if (!IsValid(lActor))
+	if (!IsValid(lBullet))
 	{
 		UE_LOG(LogTemp, Error, TEXT("Primary shoot lActor is not valid"));
 		return;
@@ -245,7 +245,12 @@ void ATankBaseCharacter::PrimaryShoot()
 
 	FTransform lTrans = m_tankCanon->GetShootTransform();
 
-	lActor->SetActorTransform(lTrans);
+	UKismetMathLibrary::InvertTransform(lTrans);
+
+	lBullet->SetActorRelativeTransform(lTrans);
+	//lBullet->SetActorLocationAndRotation(lTrans.GetLocation(), lTrans.GetRotation());
+	//lBullet->SetActorRotation(m_tankHeadPivot->GetComponentTransform().GetRotation());
+	//lBullet->ActivateBullet();
 }
 
 void ATankBaseCharacter::InitTank()

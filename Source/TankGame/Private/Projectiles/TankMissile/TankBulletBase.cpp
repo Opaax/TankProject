@@ -2,11 +2,15 @@
 
 
 #include "Projectiles/TankMissile/TankBulletBase.h"
+#include "TankGame/Public/GameFramWork/GameModes/TankGameGameModeBase.h"
+#include "TankGame/Public/GameFramWork/Managers/ObjectPoolManager.h"
+#include "Tankgame/Public/FrameworkUtils/Components/TimerComponent.h"
 
 //UE
 #include "Components/StaticMeshComponent.h"
 #include "Components/SceneComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 ATankBulletBase::ATankBulletBase()
@@ -21,6 +25,9 @@ ATankBulletBase::ATankBulletBase()
 	m_mesh->SetupAttachment(m_root);
 
 	m_projectileComp = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("MovementComponent"));
+	AddOwnedComponent(m_projectileComp);
+
+	m_lifeTimer = CreateDefaultSubobject<UTimerComponent>(TEXT("Life_Timer"));
 }
 
 // Called when the game starts or when spawned
@@ -34,6 +41,41 @@ void ATankBulletBase::BeginPlay()
 void ATankBulletBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
+void ATankBulletBase::ActivateBullet()
+{
+	m_projectileComp->Activate();
+
+	m_lifeTimer->Launch(4.0, ETimerType::Dec, false);
+	m_lifeTimer->OnTimerOver.AddDynamic(this, &ATankBulletBase::LifeTimer_OnTimerOver);
+}
+
+void ATankBulletBase::LifeTimer_OnTimerOver()
+{
+	ReturnToPool();
+	RemoveTimerBindFunction();
+}
+
+void ATankBulletBase::RemoveTimerBindFunction()
+{
+	m_lifeTimer->OnTimerOver.Clear();
+}
+
+//IPoolable
+void ATankBulletBase::ReturnToPool()
+{
+	ATankGameGameModeBase* lGM = Cast<ATankGameGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+
+	if (lGM == nullptr)
+	{
+		return;
+	}
+
+	UObjectPoolManager* lPoolManager = lGM->GetObjectPoolManager();
+
+	if (lPoolManager == nullptr)
+	{
+		return;
+	}
+}
