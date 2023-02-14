@@ -97,6 +97,12 @@ public:
 					}
 
 					T* lReturnableOBJ = (T*)lPool.Value.Pop();
+
+					if (IPoolableInterface* lInter = Cast<IPoolableInterface>(lReturnableOBJ))
+					{
+						lInter->ActivatePoolObject();
+					}
+
 					return lReturnableOBJ;
 				}
 			}

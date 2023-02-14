@@ -49,7 +49,10 @@ void UObjectPoolManager::InitObjectPoolManager(AActor* NewOwner, UDataTable* Poo
 
 void UObjectPoolManager::InitPool(TSubclassOf<AActor> Class, float NumberOfInstances)
 {
-	SpawnRange(Class, NumberOfInstances);
+	if (Class.Get()->ImplementsInterface(UPoolableInterface::StaticClass()))
+	{
+		SpawnRange(Class, NumberOfInstances);
+	}
 }
 
 void UObjectPoolManager::SpawnRange(TSubclassOf<AActor> KeyClass, float NumberOfInstances)
@@ -73,6 +76,11 @@ void UObjectPoolManager::SpawnRange(TSubclassOf<AActor> KeyClass, float NumberOf
 	for (int i = 0; i < NumberOfInstances; i++)
 	{
 		AActor* lNewActor = lWorld->SpawnActor<AActor>(KeyClass, lTransform, lSpawnInfo);
+
+		if (IPoolableInterface* lInter = Cast<IPoolableInterface>(lNewActor))
+		{
+			lInter->DesactivatePoolObject();
+		}
 
 		AddOnPool(KeyClass, lNewActor);
 	}

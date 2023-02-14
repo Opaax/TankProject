@@ -234,7 +234,7 @@ void ATankBaseCharacter::PrimaryShoot()
 	{
 		return;
 	}
-	
+
 	ATankBulletBase* lBullet = lPoolManager->GetPoolObject<ATankBulletBase>();
 
 	if (!IsValid(lBullet))
@@ -247,11 +247,10 @@ void ATankBaseCharacter::PrimaryShoot()
 
 	UKismetMathLibrary::InvertTransform(lTrans);
 
-	lBullet->SetActorRelativeTransform(lTrans);
-	//lBullet->SetActorLocationAndRotation(lTrans.GetLocation(), lTrans.GetRotation());
-	//lBullet->SetActorRotation(m_tankHeadPivot->GetComponentTransform().GetRotation());
-	//lBullet->ActivateBullet();
+	lBullet->SetActorTransform(lTrans);
+	lBullet->ActivateBullet();
 }
+
 
 void ATankBaseCharacter::InitTank()
 {
