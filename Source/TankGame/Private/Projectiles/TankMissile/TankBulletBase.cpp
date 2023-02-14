@@ -45,14 +45,21 @@ void ATankBulletBase::Tick(float DeltaTime)
 
 void ATankBulletBase::ActivateBullet()
 {
+	m_projectileComp->Velocity = GetActorForwardVector() * m_projectileComp->InitialSpeed;
 	m_projectileComp->Activate();
 
-	m_lifeTimer->Launch(4.0, ETimerType::Dec, false);
+	m_lifeTimer->Launch(m_bulletLifeTime, ETimerType::Dec, true);
 	m_lifeTimer->OnTimerOver.AddDynamic(this, &ATankBulletBase::LifeTimer_OnTimerOver);
+}
+
+void ATankBulletBase::DesactivateBullet()
+{
+	m_projectileComp->Deactivate();
 }
 
 void ATankBulletBase::LifeTimer_OnTimerOver()
 {
+	DesactivateBullet();
 	ReturnToPool();
 	RemoveTimerBindFunction();
 }
@@ -78,4 +85,20 @@ void ATankBulletBase::ReturnToPool()
 	{
 		return;
 	}
+
+	lPoolManager->BackToPool(GetClass(), this);
+}
+
+void ATankBulletBase::DesactivatePoolObject()
+{
+	SetActorHiddenInGame(true);
+	SetActorEnableCollision(false);
+	SetActorTickEnabled(false);
+}
+
+void ATankBulletBase::ActivatePoolObject()
+{
+	SetActorHiddenInGame(false);
+	SetActorEnableCollision(true);
+	SetActorTickEnabled(true);
 }
