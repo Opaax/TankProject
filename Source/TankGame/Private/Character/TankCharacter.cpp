@@ -3,6 +3,7 @@
 
 #include "Character/TankCharacter.h"
 #include "Camera/TankCameraController.h"
+#include "TankGame/Public/PlayerController/TankBasePlayerController.h"
 
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -20,6 +21,16 @@ ATankCharacter::ATankCharacter(const FObjectInitializer& ObjectInitializer):Supe
 
 	m_cameraComp = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	m_cameraComp->SetupAttachment(m_springArm);
+}
+
+void ATankCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+
+	if (ATankBasePlayerController* lTankController = Cast< ATankBasePlayerController>(GetController()))
+	{
+		m_cameraController->InitCameraController(lTankController);
+	}
 }
 
 UTankCameraController* ATankCharacter::GetTankCameraController() const
@@ -58,3 +69,21 @@ USpringArmComponent* ATankCharacter::GetTankSpringArm() const
 	return m_springArm;
 }
 
+void ATankCharacter::PrimaryShoot()
+{
+	Super::PrimaryShoot();
+}
+void ATankCharacter::SecondaryShoot()
+{
+	Super::SecondaryShoot();
+}
+
+///////////////// EVENTS //////////////////
+void ATankCharacter::OnPrimaryShoot_Implementation()
+{
+	m_cameraController->PlayShakePrimaryShoot();
+}
+
+void ATankCharacter::OnSecondaryShoot_Implementation()
+{
+}

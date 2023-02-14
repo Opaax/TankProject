@@ -221,6 +221,10 @@ ATankBaseCharacter::SpawnTankComponent(TSubclassOf<T> TankComponentClass, const 
 
 void ATankBaseCharacter::PrimaryShoot()
 {
+	//TODO check the cooldown for shoot
+
+	OnPrimaryShoot(); //First to make sure to be call
+
 	ATankGameGameModeBase* lGM = Cast<ATankGameGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 
 	if (lGM == nullptr)
@@ -251,6 +255,11 @@ void ATankBaseCharacter::PrimaryShoot()
 	lBullet->ActivateBullet();
 }
 
+void ATankBaseCharacter::SecondaryShoot()
+{
+	//TODO check if the secondaryshoot is possible
+	OnSecondaryShoot();
+}
 
 void ATankBaseCharacter::InitTank()
 {
@@ -324,4 +333,15 @@ FActorSpawnParameters ATankBaseCharacter::GetDefaultSpawnParams()
 	lSpawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
 	return lSpawnInfo;
+}
+
+///////////////////// EVENTS ////////////////////
+void ATankBaseCharacter::OnPrimaryShoot_Implementation()
+{
+
+}
+
+void ATankBaseCharacter::OnSecondaryShoot_Implementation()
+{
+
 }

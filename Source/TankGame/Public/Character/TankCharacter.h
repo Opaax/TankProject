@@ -26,7 +26,7 @@ protected:
 
 	////////////////////////////////// CAMERA //////////////////////////////////
 
-	UPROPERTY(BlueprintGetter=GetTankCameraController, Category = "Tank/Camera")
+	UPROPERTY(EditAnywhere,BlueprintGetter=GetTankCameraController, Category = "Tank/Camera")
 	UTankCameraController* m_cameraController = nullptr;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintGetter = GetTankCamera, Category = "Tank/Camera")
@@ -36,7 +36,7 @@ protected:
 	USpringArmComponent* m_springArm = nullptr;
 
 	// Called when the game starts or when spawned
-	/*virtual void BeginPlay() override;*/
+	virtual void BeginPlay() override;
 
 public:	
 	// Called every frame
@@ -44,6 +44,11 @@ public:
 
 	// Called to bind functionality to input
 	/*virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;*/
+
+	virtual void PrimaryShoot() override;
+	virtual void SecondaryShoot() override;
+
+	//////////////////// GETTERS /////////////////
 
 	UFUNCTION(BlueprintCallable, BlueprintPure)
 	UTankCameraController* GetTankCameraController() const;
@@ -53,4 +58,8 @@ public:
 
 	UFUNCTION(BlueprintCallable, BlueprintPure)
 	USpringArmComponent* GetTankSpringArm() const;
+
+	//////////////// EVENTS /////////////////
+	virtual void OnPrimaryShoot_Implementation() override;
+	virtual void OnSecondaryShoot_Implementation() override;
 };

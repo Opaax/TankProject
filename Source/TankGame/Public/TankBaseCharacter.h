@@ -112,7 +112,8 @@ public:
 
 	bool CheckPitchCanonRotation(float NextAddValue) const;
 
-	void PrimaryShoot();
+	virtual void PrimaryShoot();
+	virtual void SecondaryShoot();
 
 	virtual void InitTank();
 
@@ -123,6 +124,7 @@ public:
 	virtual bool CheckTankHeadComponent() const;
 
 	virtual FActorSpawnParameters GetDefaultSpawnParams();
+
 	//////////////////////// Getters /////////////////////////
 	
 	UFUNCTION(BlueprintPure, BlueprintCallable)
@@ -131,4 +133,14 @@ public:
 	USceneComponent* GetHeadPivot() const;
 	UFUNCTION(BlueprintPure, BlueprintCallable)
 	USceneComponent* GetCanonPivot() const;
+
+	//////////////////////// EVENTS ////////////////////////
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Tank/Events")
+	void OnPrimaryShoot();
+	void virtual OnPrimaryShoot_Implementation();
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Tank/Events")
+	void OnSecondaryShoot();
+	void virtual OnSecondaryShoot_Implementation();
 };
