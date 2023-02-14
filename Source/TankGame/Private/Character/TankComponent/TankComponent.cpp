@@ -85,3 +85,13 @@ TArray<ATankComponent*> ATankComponent::GetChildren() const
 {
 	return m_children.Array();
 }
+
+USkeletalMeshComponent* ATankComponent::GetSkeletalComponent() const
+{
+	if (m_skMesh != nullptr)
+	{
+		return m_skMesh;
+	}
+
+	return nullptr;
+}

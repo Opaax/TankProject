@@ -33,7 +33,7 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	USceneComponent* m_rootComponent = nullptr;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, BlueprintGetter = GetSkeletalComponent)
 	USkeletalMeshComponent* m_skMesh = nullptr;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -55,4 +55,7 @@ public:
 	virtual bool AddChild(ATankComponent* NewChild);
 	virtual bool RemoveChild(ATankComponent* ChildToRemove);
 	virtual TArray<ATankComponent*> GetChildren() const;
+
+	UFUNCTION(BlueprintPure, BlueprintCallable)
+	USkeletalMeshComponent* GetSkeletalComponent() const;
 };
