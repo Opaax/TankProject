@@ -223,7 +223,7 @@ void ATankBaseCharacter::PrimaryShoot()
 {
 	//TODO check the cooldown for shoot
 
-	OnPrimaryShoot(); //First to make sure to be call
+	OnPrimaryShoot(); //First to make sure to be call to apply effect
 
 	ATankGameGameModeBase* lGM = Cast<ATankGameGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 

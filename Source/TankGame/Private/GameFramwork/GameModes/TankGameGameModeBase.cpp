@@ -23,6 +23,7 @@ void ATankGameGameModeBase::CreateObjectPoolManager()
 {
 	if (m_objectPoolManager != nullptr) return;
 
+	//This could be a subsystem
 	m_objectPoolManager = NewObject<UObjectPoolManager>();
 	m_objectPoolManager->InitObjectPoolManager(this,m_poolTable);
 }

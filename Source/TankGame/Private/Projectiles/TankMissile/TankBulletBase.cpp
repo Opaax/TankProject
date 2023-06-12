@@ -48,7 +48,7 @@ void ATankBulletBase::ActivateBullet()
 	m_projectileComp->Velocity = GetActorForwardVector() * m_projectileComp->InitialSpeed;
 	m_projectileComp->Activate();
 
-	m_lifeTimer->Launch(m_bulletLifeTime, ETimerType::Dec, true);
+	m_lifeTimer->Launch(m_bulletLifeTime, ETimerType::Dec, false);
 	m_lifeTimer->OnTimerOver.AddDynamic(this, &ATankBulletBase::LifeTimer_OnTimerOver);
 }
 
