@@ -1,4 +1,4 @@
-# TankProject
+# Tank Project
 Personnal Tank project which is currently WIP.
 
 The tank is construct to be modular. (I thought about tank customization)
