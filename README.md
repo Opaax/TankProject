@@ -1,10 +1,10 @@
 # Tank Project
-Personnal Tank project which is currently WIP.
+Personal Tank project which is currently WIP.
 
-The tank is construct to be modular. (I thought about tank customization)
+The tank is constructed to be modular. (I thought about tank customization)
 
-For now I do have:
-- Pool manager that can handle all my pools for any bullets type (I decided to go with physical shoot instead of trace)
+For now, I do have:
+- Pool manager that can handle all my pools for any bullets type (I decided to go with physical shoot instead of the trace)
 - Character tank basic movement (not physical)
 - Primary shoot
 
