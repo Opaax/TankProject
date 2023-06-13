@@ -55,7 +55,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	virtual void ActivateBullet();
-	virtual void DesactivateBullet();
+	virtual void DisactivateBullet();
 
 	//IPoolable
 	virtual void ReturnToPool() override;

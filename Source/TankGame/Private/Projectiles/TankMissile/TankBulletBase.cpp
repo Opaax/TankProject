@@ -52,14 +52,14 @@ void ATankBulletBase::ActivateBullet()
 	m_lifeTimer->OnTimerOver.AddDynamic(this, &ATankBulletBase::LifeTimer_OnTimerOver);
 }
 
-void ATankBulletBase::DesactivateBullet()
+void ATankBulletBase::DisactivateBullet()
 {
 	m_projectileComp->Deactivate();
 }
 
 void ATankBulletBase::LifeTimer_OnTimerOver()
 {
-	DesactivateBullet();
+	DisactivateBullet();
 	ReturnToPool();
 	RemoveTimerBindFunction();
 }
